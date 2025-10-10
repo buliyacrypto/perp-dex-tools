@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 一键拉取并部署 perp-dex-tools 的脚本
-# 适用于 Ubuntu/Debian 系统
+# 适用于 Ubuntu 系统
 # 使用方法: bash pull_and_deploy.sh <GITHUB_REPO_URL>
 # 示例: bash pull_and_deploy.sh https://github.com/<your-username>/perp-dex-tools.git
 
@@ -160,9 +160,7 @@ if [[ -z "$EDIT_ENV" || "$EDIT_ENV" =~ ^[Yy]$ ]]; then
         # 检查 micro 是否安装
         if ! command -v micro &> /dev/null; then
             log "micro 未安装，正在安装..."
-            curl https://getmic.ro | bash
-            mv micro /usr/local/bin/
-            chmod +x /usr/local/bin/micro
+            apt install -y micro
         fi
     else
         error "无效选择，请选择 1 (nano) 或 2 (micro)"
@@ -181,6 +179,6 @@ log "1.切换到项目目录：cd $PROJECT_DIR"
 log "2. 如果未编辑 .env 文件，可使用：nano .env 或 micro .env"
 log "3. 激活虚拟环境：source env/bin/activate"
 log "4. 运行机器人，例如：python runbot.py --exchange edgex --ticker ETH --quantity 0.1 --take-profit 0.02 --max-orders 40 --wait-time 450"
-log "5. 如需 Paradex 交易所，请激活 para_env 虚拟环境：source para_env/bin/activate"
+log "5. 如需 Paradex 交易所，请自行安装para_requirements.txt依赖并激活 para_env 虚拟环境"
 log "6. 要更新代码，重新运行此脚本：bash pull_and_deploy.sh $REPO_URL"
 log "==============================="

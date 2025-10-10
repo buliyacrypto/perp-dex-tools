@@ -134,6 +134,31 @@ Python 版本要求（最佳选项是 Python 3.10 - 3.12）：
 5. **Telegram 机器人设置（可选）**：
    如需接收交易通知，请参考 [Telegram 机器人设置指南](docs/telegram-bot-setup.md) 配置 Telegram 机器人。
 
+## 快速部署
+
+```bash  
+# 下载脚本
+curl -O https://raw.githubusercontent.com/<your-username>/perp-dex-tools/main/pull_and_deploy.sh
+
+# 运行脚本，提供您的仓库 URL
+bash pull_and_deploy.sh https://github.com/<your-username>/perp-dex-tools.git
+```
+#### 脚本执行过程：
+- 检查 root 权限和仓库 URL。
+- 更新系统并安装基本依赖（如 git、curl、Python）。
+- 创建项目目录 `/perp-dex-tools` 并设置权限。
+- 拉取或更新 GitHub 仓库。
+- 创建 Python 虚拟环境并安装依赖（包括可选的 grvt 依赖）。
+- 创建或跳过 `.env` 文件模板。
+- 询问是否编辑 `.env` 文件（支持 nano 或 micro 编辑器，脚本会自动安装缺失的编辑器）。
+
+#### 脚本运行中会提示：
+- 是否安装 grvt 专用依赖（默认 Y）。
+- 是否编辑 `.env` 文件（默认 Y）。
+- 编辑器选择（nano 或 micro，默认 nano）。
+
+***如果脚本执行失败，请检查日志输出并确保网络连接稳定***
+
 ## 策略概述
 
 **重要提醒**：大家一定要先理解了这个脚本的逻辑和风险，这样你就能设置更适合你自己的参数，或者你也可能觉得这不是一个好策略，根本不想用这个策略来刷交易量。我在推特也说过，我不是为了分享而写这些脚本，而是我真的在用这个脚本，所以才写了，然后才顺便分享出来。
