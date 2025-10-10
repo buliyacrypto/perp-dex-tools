@@ -92,24 +92,6 @@ else
     log "跳过安装 grvt 专用依赖"
 fi
 
-# 询问是否创建 Paradex 专用虚拟环境（默认创建）
-log "是否创建并配置 Paradex 专用虚拟环境？(Y/n，默认 Y)"
-read -r CREATE_PARADEX_ENV
-if [[ -z "$CREATE_PARADEX_ENV" || "$CREATE_PARADEX_ENV" =~ ^[Yy]$ ]]; then
-    log "创建并激活 Paradex 专用虚拟环境..."
-    deactivate
-    python3 -m venv para_env
-    source para_env/bin/activate
-    pip install --upgrade pip
-    pip install -r para_requirements.txt
-    deactivate
-else
-    log "跳过创建 Paradex 专用虚拟环境"
-fi
-
-# 切换回主虚拟环境
-source env/bin/activate
-
 # 创建 .env 文件模板（如果不存在）
 if [ ! -f ".env" ]; then
     log "创建 .env 文件模板..."
