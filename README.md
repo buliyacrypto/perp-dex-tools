@@ -140,8 +140,8 @@ Python 版本要求（最佳选项是 Python 3.10 - 3.12）：
 # 下载脚本
 curl -O https://raw.githubusercontent.com/<your-username>/perp-dex-tools/main/pull_and_deploy.sh
 
-# 运行脚本，提供您的仓库 URL
-bash pull_and_deploy.sh https://github.com/<your-username>/perp-dex-tools.git
+# 运行脚本，提供您的仓库 URL(需要提供root权限)
+sudo bash pull_and_deploy.sh https://github.com/<your-username>/perp-dex-tools.git
 ```
 #### 脚本执行过程：
 - 检查 root 权限和仓库 URL。
