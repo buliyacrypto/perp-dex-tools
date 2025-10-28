@@ -98,6 +98,20 @@ class TradingBot:
         except Exception as e:
             self.logger.log(f"Error during graceful shutdown: {e}", "ERROR")
 
+        # 发送停止通知（容错处理）
+        try:
+            await self.send_notification(f"[{os.getenv('AppName')}_{self.config.exchange.upper()}_{self.config.ticker.upper()}] Bot stopped: {reason}")
+            await self.send_notification(
+                f"\n\nERROR: [{self.config.exchange.upper()}_{self.config.ticker.upper()}] "
+                f"{os.getenv('AppName')}\n"
+                "###### ERROR ###### ERROR ###### ERROR ###### ERROR #####\n"
+                f"Bot stopped: {reason}\n"
+                "###### ERROR ###### ERROR ###### ERROR ###### ERROR #####\n"
+            )
+        except Exception as e:
+            # 不要因为通知失败影响 shutdown 流程
+            self.logger.log(f"Failed to send shutdown notification: {e}", "WARNING")
+
     def _setup_websocket_handlers(self):
         """Setup WebSocket handlers for order updates."""
         def order_update_handler(message):
@@ -395,6 +409,7 @@ class TradingBot:
                 if abs(position_amt - active_close_amount) > (2 * self.config.quantity):
                     error_message = f"\n\nERROR: [{self.config.exchange.upper()}_{self.config.ticker.upper()}] "
                     error_message += "Position mismatch detected\n"
+                    error_message += f"{os.getenv('AppName')}\n"
                     error_message += "###### ERROR ###### ERROR ###### ERROR ###### ERROR #####\n"
                     error_message += "Please manually rebalance your position and take-profit orders\n"
                     error_message += "请手动平衡当前仓位和正在关闭的仓位\n"
