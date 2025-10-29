@@ -37,10 +37,36 @@
 获得 1.3x 全网最高的积分加成，未来的手续费返佣（官方预计 10 月中上线），以及即将开始的专属交易竞赛
 
 #### Extended: [https://app.extended.exchange/join/QUANT](https://app.extended.exchange/join/QUANT)
+
 10%的即时手续费减免；积分加成（官方未公布具体加成公式，但文档里有明确说明，通过官方大使邀请能拿到比自己小号邀请自己更多的分数）
 
-#### ApeX: [https://join.omni.apex.exchange/quant]( https://join.omni.apex.exchange/quant)
-30%返佣; 5%手续费减免; 积分加成; 有资格参与10月20日至11月2日的社区专属交易竞赛，总奖金高达$5500
+#### ApeX: [https://join.omni.apex.exchange/quant](https://join.omni.apex.exchange/quant)
+
+30%返佣; 5%手续费减免; 积分加成; 有资格参与 10 月 20 日至 11 月 2 日的社区专属交易竞赛，总奖金高达$5500
+
+## 快速部署
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/buliyacrypto/perp-dex-tools/dev/pull_and_deploy.sh | sudo bash -s -- https://github.com/buliyacrypto/perp-dex-tools.git
+```
+
+#### 脚本执行过程：
+
+- 检查 root 权限和仓库 URL。
+- 更新系统并安装基本依赖（如 git、curl、Python）。
+- 创建项目目录 `/perp-dex-tools` 并设置权限。
+- 拉取或更新 GitHub 仓库。
+- 创建 Python 虚拟环境并安装依赖（包括可选的 grvt 依赖）。
+- 创建或跳过 `.env` 文件模板。
+- 询问是否编辑 `.env` 文件（支持 nano 或 micro 编辑器，脚本会自动安装缺失的编辑器）。
+
+#### 脚本运行中会提示：
+
+- 是否安装 grvt 专用依赖（默认 Y）。
+- 是否编辑 `.env` 文件（默认 Y）。
+- 编辑器选择（nano 或 micro，默认 nano）。
+
+**_如果脚本执行失败，请检查日志输出并确保网络连接稳定_**
 
 ## 安装
 
@@ -376,9 +402,9 @@ python hedge_mode.py --exchange grvt --ticker BTC --size 0.05 --iter 20
 #### Extended 配置
 
 - `EXTENDED_API_KEY`: Extended API Key
-- `EXTENDED_STARK_KEY_PUBLIC`: 创建API后显示的 Stark 公钥
-- `EXTENDED_STARK_KEY_PRIVATE`: 创建API后显示的 Stark 私钥
-- `EXTENDED_VAULT`: 创建API后显示的 Extended Vault ID
+- `EXTENDED_STARK_KEY_PUBLIC`: 创建 API 后显示的 Stark 公钥
+- `EXTENDED_STARK_KEY_PRIVATE`: 创建 API 后显示的 Stark 私钥
+- `EXTENDED_VAULT`: 创建 API 后显示的 Extended Vault ID
 
 #### Apex 配置
 
