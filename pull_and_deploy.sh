@@ -8,6 +8,29 @@
 # 设置错误处理
 set -e
 
+# Helper: read from /dev/tty to support interaction when stdin is piped
+tty_read_prompt() {
+    # usage: tty_read_prompt "prompt text" varname
+    local prompt="$1"; shift
+    local varname="$1"
+    if [ -c /dev/tty ]; then
+        # shellcheck disable=SC2162
+        read -r -p "$prompt" "$varname" </dev/tty
+    else
+        error "无法打开终端(/dev/tty)。请在交互式终端运行脚本，或提供相应环境变量以跳过交互。"
+    fi
+}
+
+tty_read() {
+    # usage: tty_read varname
+    local varname="$1"
+    if [ -c /dev/tty ]; then
+        read -r "$varname" </dev/tty
+    else
+        error "无法打开终端(/dev/tty)。请在交互式终端运行脚本，或提供相应环境变量以跳过交互。"
+    fi
+}
+
 # 定义颜色
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -118,7 +141,7 @@ else
             i=$((i+1))
         done
         echo
-        read -p "请输入要切换的分支序号或名称（默认: $DEFAULT_BRANCH）：" BR_INPUT
+    tty_read_prompt "请输入要切换的分支序号或名称（默认: $DEFAULT_BRANCH）：" BR_INPUT
         if [ -z "$BR_INPUT" ]; then
             SELECTED_BRANCH="$DEFAULT_BRANCH"
         else
@@ -163,7 +186,7 @@ pip install -r requirements.txt
 
 # 询问是否安装 grvt 专用依赖（默认安装）
 log "是否安装 grvt 专用依赖？(Y/n，默认 Y)"
-read -r INSTALL_GRVT
+tty_read INSTALL_GRVT
 if [[ -z "$INSTALL_GRVT" || "$INSTALL_GRVT" =~ ^[Yy]$ ]]; then
     log "安装 grvt 专用依赖..."
     pip install grvt-pysdk
@@ -223,10 +246,10 @@ fi
 
 # 询问是否编辑 .env 文件（默认编辑）
 log "是否编辑 .env 文件？(Y/n，默认 Y)"
-read -r EDIT_ENV
+tty_read EDIT_ENV
 if [[ -z "$EDIT_ENV" || "$EDIT_ENV" =~ ^[Yy]$ ]]; then
     log "请选择编辑器：1) nano  2) micro (默认 nano，按 Enter 选择 nano)"
-    read -r EDITOR_CHOICE
+    tty_read EDITOR_CHOICE
     if [[ -z "$EDITOR_CHOICE" || "$EDITOR_CHOICE" = "1" ]]; then
         EDITOR="nano"
         # 检查 nano 是否安装
